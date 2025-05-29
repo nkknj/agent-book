@@ -7,7 +7,8 @@ import faiss
 import numpy as np
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import OpenAIEmbeddings
+#from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from pydantic import BaseModel, Field
 from retry import retry
 from settings import Settings
@@ -39,7 +40,8 @@ class Reflection(BaseModel):
 class ReflectionManager:
     def __init__(self, file_path: str = settings.default_reflection_db_path):
         self.file_path = file_path
-        self.embeddings = OpenAIEmbeddings(model=settings.openai_embedding_model)
+        #self.embeddings = OpenAIEmbeddings(model=settings.openai_embedding_model)
+        self.embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
         self.reflections: dict[str, Reflection] = {}
         self.embeddings_dict: dict[str, list[float]] = {}
         self.index = None
